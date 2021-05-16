@@ -3,6 +3,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 using BinaryPack.Attributes;
 using BinaryPack.Enums;
 
@@ -51,7 +52,7 @@ namespace System
                     (mode.HasFlag(SerializationMode.NonPublicMembers) ? BindingFlags.NonPublic : BindingFlags.Default))
                 where (mode.HasFlag(SerializationMode.Properties) && member.MemberType == MemberTypes.Property ||
                        mode.HasFlag(SerializationMode.Fields) && member.MemberType == MemberTypes.Field) &&
-                      !member.IsDefined(typeof(IgnoredMemberAttribute)) &&
+                      !member.IsDefined(typeof(IgnoreDataMemberAttribute)) &&
                       (member is FieldInfo fieldInfo && !fieldInfo.IsInitOnly && !fieldInfo.IsLiteral ||
                        member is PropertyInfo propertyInfo && propertyInfo.CanRead && propertyInfo.CanWrite)
                 orderby member.Name
